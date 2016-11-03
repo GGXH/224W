@@ -13,6 +13,8 @@ Get_Deg_Centr_study.ipynb: study based on degree centrality
 
 Get_betweenness Centr_study.ipynb: study based on betweenness centrality
 
+get_between_ctr_study.py: python version of study based on betweeness centrality
+
 Get_close_Centr_study.ipynb: study based on closeness centrality
 
 Get_eigenvctr_Centr_study.ipynb: study based on eigenvalue
