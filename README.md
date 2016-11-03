@@ -17,6 +17,8 @@ get_between_ctr_study.py: python version of study based on betweeness centrality
 
 Get_close_Centr_study.ipynb: study based on closeness centrality
 
+get_close_ctr_study.py: python version of study based on closeness centrality
+
 Get_eigenvctr_Centr_study.ipynb: study based on eigenvalue
 
 Get_farness_Centr_study.ipynb: study based on farness centrality
