@@ -30,3 +30,7 @@ Get_hit_Centr_study.ipynb: study based on hubs and authority scores
 Get_nde_Centr_study.ipynb: study based on node eccentricity
 
 Get_pagerank_Centr_study.ipynb: study based on pagerank
+
+Linear_threshold_model.ipynb: linear threshold model
+
+Independent_cascade_model.ipynb: independent cascade model
