@@ -63,8 +63,8 @@ if __name__ == "__main__":
     ##--get run the model with random initial
     mean_list = {}
     std_list = {}
-    total_iter = 1000000
-    for init_set in xrange(30):
+    total_iter = 10000
+    for init_set in xrange(3, 31, 3):
         total_influence = [0] * total_iter
         for i in xrange(total_iter):
             new_act_nod = set()
@@ -85,6 +85,6 @@ if __name__ == "__main__":
         std_list[init_set] = total_influence.std()[0]
         print init_set, mean_list[init_set], std_list[init_set]
     ##--dump file
-    with open('lnr_thrs_rnd.txt', 'wb') as fl:
+    with open('lnr_thrs_rnd_5_10000.txt', 'wb') as fl:
         pickle.dump(mean_list, fl)
         pickle.dump(std_list, fl)

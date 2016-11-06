@@ -1,3 +1,4 @@
+import gc
 import operator
 import pandas as pd
 import pickle
@@ -53,8 +54,9 @@ if __name__ == "__main__":
     prob = 0.01
     mean_list = {}
     std_list = {}
-    total_iter = 1000000
-    for init_set in xrange(1, 31):
+    total_iter = 100000
+    for init_set in xrange(3, 31, 3):
+        gc.collect()
         total_influence = [0] * total_iter
         for i in xrange(total_iter):
             new_act_nod = set()
@@ -62,7 +64,7 @@ if __name__ == "__main__":
                 new_act_nod.add(gf.GetRndNId())
             act_nod_list = new_act_nod.copy()
             step = 0
-            while len(new_act_nod) != 0 and step < 10:
+            while len(new_act_nod) != 0 and step < 5:
                 act_nod_list, new_act_nod = ind_cas_mod_1step_v2(gf_map, act_nod_list, new_act_nod, prob)
                 step += 1
             if i % (total_iter / 10) == 0:
@@ -73,7 +75,7 @@ if __name__ == "__main__":
         std_list[init_set] = total_influence.std()[0]
         print init_set, mean_list[init_set], std_list[init_set]
     ##--dump to file
-    with open('indp_cas_rnd_10.pkl', 'wb') as fl:
+    with open('indp_cas_rnd_5_100000.pkl', 'wb') as fl:
         pickle.dump(mean_list, fl)
         pickle.dump(std_list, fl)
     
