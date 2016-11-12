@@ -38,3 +38,5 @@ lnr_thrs_mod.py: python version of linear threshold model
 Independent_cascade_model.ipynb: independent cascade model
 
 indp_cas_mod.py: python version of independent cascade model
+
+get_twolayergraph.py: get community graph
