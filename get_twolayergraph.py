@@ -82,12 +82,12 @@ def get_comm_map(gf_map, comm_map_usr, comm_map_comm):
                         comm_map[c_id][nnbr_id] = 0.5
             elif nnbr_id > 0:
                 for c_nbr_id in comm_map_usr[nbr_id]:
-                    if c_nbr_id in comm_map[c_id]:
+                    if c_nbr_id in comm_map[nid]:
                         comm_map[nid][c_nbr_id] += 0.5
                     else:
                         comm_map[nid][c_nbr_id] = 0.5            
             else:
-                if nnbr_id in comm_map[c_id]:
+                if nnbr_id in comm_map[nid]:
                     comm_map[nid][nnbr_id] += 0.5
                 else:
                     comm_map[nid][nnbr_id] = 0.5
