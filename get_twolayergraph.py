@@ -63,7 +63,7 @@ def get_comm_map(gf_map, comm_map_usr, comm_map_comm):
         nid = id
         if id not in comm_map_usr:
             nid = -id
-        for nbr_id in gf_map:
+        for nbr_id in gf_map[id]:
             nnbr_id = nbr_id
             if nbr_id not in comm_map_usr:
                 nnbr_id = -nbr_id
@@ -92,7 +92,7 @@ def get_comm_map(gf_map, comm_map_usr, comm_map_comm):
                 else:
                     comm_map[nid][nnbr_id] = 0.5
     gf_map.clear()
-    comm_map_usr.clear()
+    comm_map_comm.clear()
     return comm_map
 
 
@@ -117,4 +117,4 @@ if __name__ == "__main__":
     gf_file = "comm_graph.pkl"
     with open(gf_file, "wb") as fl:
         pickle.dump(comm_map, fl)
-    
+        pickle.dump(comm_map_usr, fl)
