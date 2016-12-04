@@ -94,15 +94,15 @@ def get_ntop_nd(method, n, sorted_id_comm_size):
         file = "result/eignv.pkl"
     elif method == 5 or method == 6:
         file = "result/hit.pkl"
-    elif method == 7:
+    elif method == 7 or method == 13 or method == 18:
         file = "result/deg_ctr_comm_only.pkl"
-    elif method == 8:
+    elif method == 8 or method == 14 or method == 19:
         file = "result/eignv_commonly.pkl"
-    elif method == 9:
+    elif method == 9 or method == 15 or method == 20:
         file = "result/pgrk_commonly.pkl"
-    elif method == 10:
+    elif method == 10 or method == 16 or method == 21:
         file = "result/deg_ctr_comm_1st.pkl"
-    elif method == 11:
+    elif method == 11 or method == 17 or method == 22:
         file = "result/pgrk_comm1st.pkl"
     ctr_map = {}
     with open(file, 'r') as fl:
@@ -116,7 +116,11 @@ def get_ntop_nd(method, n, sorted_id_comm_size):
         sorted_id = [ sorted_dgc[i][0] for i in xrange(n) ]
         print sorted_dgc[:n+10]
     else:
-        sorted_id = [ ctr_map[sorted_id_comm_size[i]][0] for i in xrange(n) ]
+        for i in xrange(n):
+            if sorted_id_comm_size[i] >= 0:
+                sorted_id.append(ctr_map[sorted_id_comm_size[i]][0])
+            else:
+                sorted_id.append(-sorted_id_comm_size[i])
     print sorted_id
     return sorted_id
 
@@ -132,10 +136,11 @@ if __name__ == "__main__":
     #std_list = {}
     total_iter = 1000
     mstep = 5
-    method = 8
+    method = 13
     id_max = 31
     ##--
     sorted_id_comm_size = []
+    sorted_id_usr_size = []
     if method > 6:
         comm_file = 'data/com-lj.all.cmty.txt'
         comm_map_usr, comm_map_comm = get_comm_info(comm_file)
@@ -146,6 +151,26 @@ if __name__ == "__main__":
         ##--sorted community by its size
         sorted_comm_size = sorted(comm_size.items(), key = operator.itemgetter(1), reverse=True)
         sorted_id_comm_size = [ item[0] for item in sorted_comm_size ]
+        comm_size.clear()
+        if not (method != 1 and method != 12 ):
+            del sorted_id_comm_size[:]
+        if method == 12:
+            for id in comm_map_usr:
+                comm_size[id] = len(comm_map_usr[id])
+            sorted_comm_size = sorted(comm_size.items(), key = operator.itemgetter(1), reverse=True)
+            sorted_id_usr_size = [item[0] for item in sorted_comm_size]
+            sorted_id_usr_size = sorted_id_usr_size[:50]
+            comm_size.clear()
+        if method >= 13 and method <= 17:
+            file = "comm_deg_dist.pkl"
+            with open(file, 'r') as fl:
+                degr_centr_map = pickle.load(fl)
+            sorted_dgc = sorted(degr_centr_map.items(), key = operator.itemgetter(1), reverse=True)
+            sorted_id_comm_size = [ item[0] for item in sorted_dgc ]
+        if method > 17 and method <= 22:
+            file = "eignv_comm_gf.pkl"
+            with open(file, 'r') as fl:
+                sorted_id_comm_size = pickle.load(fl)
     ##--
     file_nm = "lnr_thrs_"
     if method == 1:
@@ -170,13 +195,44 @@ if __name__ == "__main__":
         file_nm += "deg_comm1st_"
     elif method == 11:
         file_nm += "pgrk_comm1st_"
+    elif method == 12:
+        file_nm += "more_comm_"
+    elif method == 13:
+        file_nm += "deg_deg_comm_only_"
+    elif method == 14:
+        file_nm += "deg_eig_comm_only_"
+    elif method == 15:
+        file_nm += "deg_pgrk_comm_only_"
+    elif method == 16:
+        file_nm += "deg_deg_com1st_"
+    elif method == 17:
+        file_nm += "deg_pgrk_com1st_"
+    elif method == 18:
+        file_nm += "eig_deg_comm_only_"
+    elif method == 19:
+        file_nm += "eig_eig_comm_only_"
+    elif method == 20:
+        file_nm += "eig_pgrk_comm_only_"
+    elif method == 21:
+        file_nm += "eig_deg_com1st_"
+    elif method == 22:
+        file_nm += "eig_pgrk_com1st_"
     file_nm += str(mstep) + "_" + str(total_iter) + ".pkl"
-    id_list = get_ntop_nd(method, id_max, sorted_id_comm_size)
+    id_list = []
+    if method != 1 and method != 12:
+        id_list = get_ntop_nd(method, id_max, sorted_id_comm_size)
     for init_set in xrange(3, 31, 3):
         total_influence = [0] * total_iter
         init_act_nod = set()
-        if method != 1:
+        if method != 1 and method != 12:
             init_act_nod = set(id_list[:init_set])
+            i = 0
+            while len(init_act_nod) != init_set:
+                i += 1
+                init_act_nod = set(id_list[:init_set+i])
+            print init_act_nod
+        elif method == 12:
+            init_act_nod = set(sorted_id_usr_size[:init_set])
         for i in xrange(total_iter):
             gc.collect()
             new_act_nod = set()
