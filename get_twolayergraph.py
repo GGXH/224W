@@ -59,6 +59,7 @@ def get_comm_map(gf_map, comm_map_usr, comm_map_comm):
     for id in gf_map:
         if id not in comm_map_usr:
             comm_map[-id] = {}
+    fl = open("comm_graph_edge.txt", "w")
     for id in gf_map:
         nid = id
         if id not in comm_map_usr:
@@ -69,42 +70,60 @@ def get_comm_map(gf_map, comm_map_usr, comm_map_comm):
                 nnbr_id = -nbr_id
             if nid > 0 and nnbr_id > 0:
                 for c_id in comm_map_usr[id]:
+                    line = str(c_id)
                     for c_nbr_id in comm_map_usr[nbr_id]:
-                        if c_nbr_id in comm_map[c_id]:
-                            comm_map[c_id][c_nbr_id] += 0.5
-                        else:
-                            comm_map[c_id][c_nbr_id] = 0.5
+                        line += " " + str(c_nbr_id)
+                    fl.write(line)
+                    fl.write("\n")
+                        # if c_nbr_id in comm_map[c_id]:
+                            # comm_map[c_id][c_nbr_id] += 0.5
+                        # else:
+                            # comm_map[c_id][c_nbr_id] = 0.5
             elif nid > 0:
+                line = str(nnbr_id)
                 for c_id in comm_map_usr[id]:
-                    if nnbr_id in comm_map[c_id]:
-                        comm_map[c_id][nnbr_id] += 0.5
-                    else:
-                        comm_map[c_id][nnbr_id] = 0.5
+                    line += " " + str(c_id) 
+                fl.write(line)
+                fl.write("\n")
+                    # if nnbr_id in comm_map[c_id]:
+                        # comm_map[c_id][nnbr_id] += 0.5
+                    # else:
+                        # comm_map[c_id][nnbr_id] = 0.5
             elif nnbr_id > 0:
+                line = str(nid)
                 for c_nbr_id in comm_map_usr[nbr_id]:
-                    if c_nbr_id in comm_map[nid]:
-                        comm_map[nid][c_nbr_id] += 0.5
-                    else:
-                        comm_map[nid][c_nbr_id] = 0.5            
+                    line += " " + str(c_nbr_id)
+                fl.write(line)
+                fl.write("\n")
+                    # if c_nbr_id in comm_map[nid]:
+                        # comm_map[nid][c_nbr_id] += 0.5
+                    # else:
+                        # comm_map[nid][c_nbr_id] = 0.5            
             else:
-                if nnbr_id in comm_map[nid]:
-                    comm_map[nid][nnbr_id] += 0.5
-                else:
-                    comm_map[nid][nnbr_id] = 0.5
+                line = str(nid) + " " + str(nnbr_id)
+                fl.write(line)
+                fl.write("\n")
+                # if nnbr_id in comm_map[nid]:
+                    # comm_map[nid][nnbr_id] += 0.5
+                # else:
+                    # comm_map[nid][nnbr_id] = 0.5
     gf_map.clear()
-    comm_map_comm.clear()
+    fl.close()
     return comm_map
 
 
 if __name__ == "__main__":
     ##--get graph map
-    gf_file = "data/com-lj.ungraph.txt"
-    gf_map = get_graph_info(gf_file)
-    gc.collect()
-    print "Get graph map"
+    # gf_file = "data/com-lj.ungraph.txt"
+    # gf_map = get_graph_info(gf_file)
+    # gc.collect()
+    # print "Get graph map"
     gf_file = "whole_graph_map.pkl"
-    with open(gf_file, 'wb') as fl:
-        pickle.dump(gf_map, fl)
+    # with open(gf_file, 'wb') as fl:
+        # pickle.dump(gf_map, fl)
+    gf_map = ""
+    with open(gf_file, 'r') as fl:
+        gf_map = pickle.load(fl)
     print "Dump the whole graph map to pickle"
     gc.collect()
     ##--get community information
