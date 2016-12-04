@@ -42,3 +42,13 @@ indp_cas_mod.py: python version of independent cascade model
 get_twolayergraph.py: get community graph
 
 Degree_dist-comm.ipynb: degree distribution for community graph
+
+get_comm_btw.py: get betweenness centrality for community graph
+
+get_comm_close.py: get closeness centrality for community graph
+
+get_comm_pgrk.py: get PageRank centrality for community graph
+
+get_comm_eigv.py: get Eigenvector centrality for community graph
+
+get_comm_edge.py: simply community edge file from get_twolayergraph.py
