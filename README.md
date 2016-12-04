@@ -40,3 +40,5 @@ Independent_cascade_model.ipynb: independent cascade model
 indp_cas_mod.py: python version of independent cascade model
 
 get_twolayergraph.py: get community graph
+
+Degree_dist-comm.ipynb: degree distribution for community graph
