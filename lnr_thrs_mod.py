@@ -94,15 +94,15 @@ def get_ntop_nd(method, n, sorted_id_comm_size):
         file = "result/eignv.pkl"
     elif method == 5 or method == 6:
         file = "result/hit.pkl"
-    elif method == 7 or method == 13 or method == 18:
+    elif method == 7 or method == 13 or method == 18 or method == 23:
         file = "result/deg_ctr_comm_only.pkl"
-    elif method == 8 or method == 14 or method == 19:
+    elif method == 8 or method == 14 or method == 19 or method == 24:
         file = "result/eignv_commonly.pkl"
-    elif method == 9 or method == 15 or method == 20:
+    elif method == 9 or method == 15 or method == 20 or method == 25:
         file = "result/pgrk_commonly.pkl"
-    elif method == 10 or method == 16 or method == 21:
+    elif method == 10 or method == 16 or method == 21 or method == 26:
         file = "result/deg_ctr_comm_1st.pkl"
-    elif method == 11 or method == 17 or method == 22:
+    elif method == 11 or method == 17 or method == 22 or method == 27:
         file = "result/pgrk_comm1st.pkl"
     ctr_map = {}
     with open(file, 'r') as fl:
@@ -136,8 +136,8 @@ if __name__ == "__main__":
     #std_list = {}
     total_iter = 1000
     mstep = 5
-    method = 13
-    id_max = 31
+    method = 23
+    id_max = 30
     ##--
     sorted_id_comm_size = []
     sorted_id_usr_size = []
@@ -171,6 +171,8 @@ if __name__ == "__main__":
             file = "eignv_comm_gf.pkl"
             with open(file, 'r') as fl:
                 sorted_id_comm_size = pickle.load(fl)
+        if method >=23 and method <= 27:
+            sorted_id_comm_size = [664006, 661354, 653762, 652794, 650822, 650830, 650282, 659019, 648906, 661646, 656578, 649876, 660448, 643217, 649277, 646467, 646601, 646457, 655297, 656293, 662541, 647361, 654692, 646443, 644803, 645070, 651333, 655187, 646614, 641906]
     ##--
     file_nm = "lnr_thrs_"
     if method == 1:
@@ -217,6 +219,16 @@ if __name__ == "__main__":
         file_nm += "eig_deg_com1st_"
     elif method == 22:
         file_nm += "eig_pgrk_com1st_"
+    elif method == 23:
+        file_nm += "cd_deg_comm_only_"
+    elif method == 24:
+        file_nm += "cd_eig_comm_only_"
+    elif method == 25:
+        file_nm += "cd_pgrk_comm_only_"
+    elif method == 26:
+        file_nm += "cd_deg_com1st_"
+    elif method == 27:
+        file_nm += "cd_pgrk_com1st_"
     file_nm += str(mstep) + "_" + str(total_iter) + ".pkl"
     id_list = []
     if method != 1 and method != 12:
@@ -227,7 +239,7 @@ if __name__ == "__main__":
         if method != 1 and method != 12:
             init_act_nod = set(id_list[:init_set])
             i = 0
-            while len(init_act_nod) != init_set:
+            while len(init_act_nod) != init_set and init_set + i < len(id_list):
                 i += 1
                 init_act_nod = set(id_list[:init_set+i])
             print init_act_nod
