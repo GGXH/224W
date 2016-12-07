@@ -3,6 +3,7 @@ import operator
 #import numpy as np
 import pickle
 import random
+import sys
 #import snap
 
 ##--get graph map
@@ -172,7 +173,11 @@ if __name__ == "__main__":
             with open(file, 'r') as fl:
                 sorted_id_comm_size = pickle.load(fl)
         if method >=23 and method <= 27:
-            sorted_id_comm_size = [664006, 661354, 653762, 652794, 650822, 650830, 650282, 659019, 648906, 661646, 656578, 649876, 660448, 643217, 649277, 646467, 646601, 646457, 655297, 656293, 662541, 647361, 654692, 646443, 644803, 645070, 651333, 655187, 646614, 641906]
+            file = "comm_gf_t50.txt"
+            with open(file, "r") as fl:
+                for line in fl:
+                    line_ary = line.split(",")
+                    sorted_id_comm_size.append(int(line_ary[0]))
     ##--
     file_nm = "lnr_thrs_"
     if method == 1:
@@ -267,6 +272,7 @@ if __name__ == "__main__":
         mean_list[init_set] = float(sum(total_influence)) / max(len(total_influence), 1)
         #std_list[init_set] = total_influence.std()[0]
         print init_set, mean_list[init_set]
+        sys.stdout.flush()
     ##--dump file
     with open(file_nm, 'wb') as fl:
         pickle.dump(mean_list, fl)
